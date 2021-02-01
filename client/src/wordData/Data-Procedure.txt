@@ -1,0 +1,25 @@
+Data-download procedure
+
+https://www.shunn.net/bee/archive
+
+Open up TextEdit
+
+Format --> Make plain text
+
+Copy from website, paste into TextEdit
+
+Open up Pages
+
+Copy from TextEdit, paste into Pages
+
+Find and Replace any excess characters (spaces, tabs, numbers)
+
+Open up Text Edit again, and make plain text again
+
+Copy from Pages, paste into Text Edit
+
+Make sure it’s only words contained on a single line
+
+Save as a .txt file
+
+Rinse and repeat!
