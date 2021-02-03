@@ -3,7 +3,7 @@ let word = {
         middle: "O",
         otherSix: ["A", "G", "I", "L", "N", "Y"]
     },
-    answer: {
+    answers: {
         AGOG: 1,
         AGONY: 1,
         AIOLI: 1,
