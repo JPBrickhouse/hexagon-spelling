@@ -26,6 +26,8 @@ function App() {
 
         <Home/>
 
+        {/* Rules for the game */}
+
         {/* About the App */}
 
         {/* Contact / Meet the Developer */}

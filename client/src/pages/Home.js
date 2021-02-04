@@ -11,8 +11,15 @@ import Button from "react-bootstrap/Button"
 // https://josephsurin.github.io/tiled-hexagons/
 import { Hexagon, TiledHexagons } from 'tiled-hexagons'
 // ---------------------------------------------------------------------------------
-// Getting the data used to create and test the functions for the words
-import word from "../wordData/initial-word-test"
+// Getting the data used for the word puzzle content and solutions
+import allTheWordSolutions from "../wordData/allTheWordSolutions"
+// The maximum is exclusive and the minimum is inclusive
+function getRandomArbitrary(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+}
+let maxExclusive = allTheWordSolutions.length;
+let indexOfWordToUse = getRandomArbitrary(0, maxExclusive);
+let word = allTheWordSolutions[indexOfWordToUse];
 // ---------------------------------------------------------------------------------
 
 // NOTES about the button click
@@ -39,24 +46,30 @@ const Home = () => {
         fontFamily: 'Source Sans Pro',
         fontSize: '120px',
         fill: '#000000'
-    }
+    };
 
     // Class to help center / justify the page content
-    const colCenterClassName = "d-flex justify-content-center"
+    const colCenterClassName = "d-flex justify-content-center";
 
     // State objects getting the letters for the puzzle
-    const [middleLetter, setMiddleLetter] = useState(word.letters.middle)
-    const [otherSixLetters, setOtherSixLetters] = useState(word.letters.otherSix)
+    const [middleLetter, setMiddleLetter] = useState(word.letters.middle);
+    const [otherSixLetters, setOtherSixLetters] = useState(word.letters.otherSix);
 
     // State object displaying the letters as the user clicks them
     // (The default message appears, indicating where their letters will appear)
-    const [displayedAsEntered, setDisplayedAsEntered] = useState("Your letters will appear here!")
+    const [displayedAsEntered, setDisplayedAsEntered] = useState("Your letters will appear here!");
 
     // State object for the click count, which is used to help determine when to display the default message
-    const [clickCount, setClickCount] = useState(0)
+    const [clickCount, setClickCount] = useState(0);
 
     // State object containing the possible answers for the puzzle
-    const [answerObject, setAnswerObject] = useState(word.answers)
+    const [answerObject, setAnswerObject] = useState(word.answers);
+
+    // State object containing the words that the user has already found
+    const [userFoundWords, setUserFoundWords] = useState([]);
+
+    // State object containing the user's score
+    const [userScore, setUserScore] = useState(0)
 
     // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
     // Durstenfeld shuffle, an optimized version of Fisher-Yates
@@ -78,9 +91,10 @@ const Home = () => {
         setOtherSixLetters([...newArrayOrder]);
     }
 
+    // Function called from with the clickingALetter function to help update the display
     function updateDisplay(originalString, clickedLetter) {
         if (clickCount === 0) {
-            let newString = clickedLetter
+            let newString = clickedLetter;
             return newString;
         }
         else {
@@ -100,7 +114,7 @@ const Home = () => {
         if (currentString.length !== 0 && currentString.length !== 1) {
             // https://flaviocopes.com/how-to-remove-last-char-string-js/
             // Removing the last letter from the string
-            let newString = currentString.slice(0, -1)
+            let newString = currentString.slice(0, -1);
 
             // Updating the state of the display
             setDisplayedAsEntered(newString);
@@ -109,10 +123,10 @@ const Home = () => {
         // Then change the string to the default message, reset the click count, and update the state display
         if (currentString.length === 1) {
             // Change the string to the default message
-            let newString = "Your letters will appear here!"
+            let newString = "Your letters will appear here!";
 
             // Resetting the click count
-            setClickCount(0)
+            setClickCount(0);
 
             // Updating the state of the display
             setDisplayedAsEntered(newString);
@@ -161,39 +175,102 @@ const Home = () => {
         }
     }
 
+    // Function to sort the userFoundWords array alphabetically
+    // By default, the sort() method sorts the values as strings in alphabetical and ascending order
+    function alphabetizeTheUserWords(array) {
+        array.sort();
+        return array;
+    }
+
     // Button click function that gets called when the "Submit word" button is pushed
     function submitButtonClicked(event) {
         event.preventDefault();
 
         // If click count is zero, do nothing
-
         // If click count is not zero, let the submit happen
+        if (clickCount !== 0) {
+
+            console.log("Valid Click");
+
+            let wordToCheck = displayedAsEntered;
+
+            // The includes() method determines whether a string contains the characters of a specified string.
+            // This method returns true if the string contains the characters, and false if not.
+            // https://www.w3schools.com/jsref/jsref_includes.asp
+
+            // If middleLetter is NOT included in the wordToCheck
+            // Change the display and let the user know
+            if (!wordToCheck.includes(middleLetter)) {
 
 
-        console.log("Hello!")
-
-        // Need to check if the middle letter is used
-        // If it isn't used, change the display and let the user know
-        // If it IS used, then proceed to other checks
+                console.log("Missing middle letter");
+                // Set the display as "Missing middle letter - try again"
 
 
+            }
+            // If the middleLetter IS included in the wordToCheck
+            // If it IS used, then proceed to other checks
+            else {
+                console.log("Includes middle letter");
+
+                // Check if the word exists in the answer object
+                // If it doesn't exist, then return a message letting the user know it's not a successful word
+                if (!answerObject[wordToCheck]) {
 
 
-        
+                    console.log("Not a valid answer");
+                    // Set the display as "Not a valid answer - try again"
 
 
-        // Check if the word exists in the answer object
-        // If it doesn't exist, then return a message letting the user know it's not a successful word
+                }
+                // If the word does exists, proceed to other checks
+                else {
 
-        // If it does exist, either the word has or hasn't been found already
-        
-        // If it has been found already, the corresponding key value will be 0
+                    console.log("Valid answer");
 
-        // If it hasn't been found, the corresponding key value will be 1
-        // Revise the answer object to 0, meaning it has been found!
+                    // If the word has already been found, the corresponding key value will be 0
+                    if (answerObject[wordToCheck] === 0) {
+
+                        console.log("Word already found");
+
+                        // Let the user know that the word has already been found
+
+                        // Set the display as "Already found - try again"
+
+
+                    }
+                    // If the word hasn't already been found, the corresponding key value will be 1
+                    else if (answerObject[wordToCheck] === 1) {
+
+                        // Revise the answer object's corresponding key value to be 0, meaning that it has been found
+                        answerObject[wordToCheck] = 0;
+
+                        // Add the word to – and sort! – the userFoundWords array
+                        let arrayToUpdate = userFoundWords;
+                        arrayToUpdate.push(wordToCheck);
+                        let sortedArray = alphabetizeTheUserWords(arrayToUpdate);
+                        setUserFoundWords([...sortedArray]);
 
 
 
+                        console.log(userFoundWords)
+                        console.log(answerObject)
+
+
+                        // Let the user know that it was successful
+                        // Update the score
+
+
+                        // Set the display as "Great job - keep going!"
+                        // UNLESS they have found all the words
+                        // At which point, return "You've found all the words!"
+
+
+
+                    }
+                }
+            }
+        }
     }
 
 
@@ -205,119 +282,143 @@ const Home = () => {
             {/* bootstrap container containing the hexagons, buttons, and everything in between */}
             <Container>
 
-                <br />
-
-                {/* Row where the user clicked letters get displayed */}
                 <Row>
-                    <Col className={colCenterClassName}>
-                        <h1>{displayedAsEntered}</h1>
-                    </Col>
-                </Row>
 
-                {/* First row of 2 hexagons */}
-                <Row>
-                    <Col className={colCenterClassName}>
-                        <Col xs={2}>
-                            <Hexagon
-                                fill="#C0C0C0"
-                                shadow="#696969"
-                                text={otherSixLetters[0]}
-                                textStyle={textStyle}
-                                onClick={clickingALetter}
-                            />
-                        </Col>
-                        <Col xs={2}>
-                            <Hexagon
-                                fill="#C0C0C0"
-                                shadow="#696969"
-                                text={otherSixLetters[1]}
-                                textStyle={textStyle}
-                                onClick={clickingALetter}
-                            />
-                        </Col>
-                    </Col>
-                </Row>
+                    <Col md={9}>
+                        <br />
 
-                {/* Second row of 3 hexagons */}
-                <Row>
-                    <Col className={colCenterClassName}>
-                        <Col xs={2}>
-                            <Hexagon
-                                fill="#C0C0C0"
-                                shadow="#696969"
-                                text={otherSixLetters[2]}
-                                textStyle={textStyle}
-                                onClick={clickingALetter}
-                            />
-                        </Col>
-                        <Col xs={2}>
-                            <Hexagon
-                                fill="#F6C700"
-                                shadow="#696969"
-                                text={middleLetter}
-                                textStyle={textStyle}
-                                onClick={clickingALetter}
-                            />
-                        </Col>
-                        <Col xs={2}>
-                            <Hexagon
-                                fill="#C0C0C0"
-                                shadow="#696969"
-                                text={otherSixLetters[3]}
-                                textStyle={textStyle}
-                                onClick={clickingALetter}
-                            />
-                        </Col>
-                    </Col>
-                </Row>
+                        {/* Row where the user clicked letters get displayed */}
+                        <Row>
+                            <Col className={colCenterClassName}>
+                                <h1>{displayedAsEntered}</h1>
+                            </Col>
+                        </Row>
 
-                {/* Third row of 2 hexagons */}
-                <Row>
-                    <Col className={colCenterClassName}>
-                        <Col xs={2}>
-                            <Hexagon
-                                fill="#C0C0C0"
-                                shadow="#696969"
-                                text={otherSixLetters[4]}
-                                textStyle={textStyle}
-                                onClick={clickingALetter}
-                            />
-                        </Col>
-                        <Col xs={2}>
-                            <Hexagon
-                                fill="#C0C0C0"
-                                shadow="#696969"
-                                text={otherSixLetters[5]}
-                                textStyle={textStyle}
-                                onClick={clickingALetter}
-                            />
-                        </Col>
-                    </Col>
-                </Row>
+                        {/* First row of 2 hexagons */}
+                        <Row>
+                            <Col className={colCenterClassName}>
+                                <Col xs={2}>
+                                    <Hexagon
+                                        fill="#C0C0C0"
+                                        shadow="#696969"
+                                        text={otherSixLetters[0]}
+                                        textStyle={textStyle}
+                                        onClick={clickingALetter}
+                                    />
+                                </Col>
+                                <Col xs={2}>
+                                    <Hexagon
+                                        fill="#C0C0C0"
+                                        shadow="#696969"
+                                        text={otherSixLetters[1]}
+                                        textStyle={textStyle}
+                                        onClick={clickingALetter}
+                                    />
+                                </Col>
+                            </Col>
+                        </Row>
 
-                <br />
+                        {/* Second row of 3 hexagons */}
+                        <Row>
+                            <Col className={colCenterClassName}>
+                                <Col xs={2}>
+                                    <Hexagon
+                                        fill="#C0C0C0"
+                                        shadow="#696969"
+                                        text={otherSixLetters[2]}
+                                        textStyle={textStyle}
+                                        onClick={clickingALetter}
+                                    />
+                                </Col>
+                                <Col xs={2}>
+                                    <Hexagon
+                                        fill="#F6C700"
+                                        shadow="#696969"
+                                        text={middleLetter}
+                                        textStyle={textStyle}
+                                        onClick={clickingALetter}
+                                    />
+                                </Col>
+                                <Col xs={2}>
+                                    <Hexagon
+                                        fill="#C0C0C0"
+                                        shadow="#696969"
+                                        text={otherSixLetters[3]}
+                                        textStyle={textStyle}
+                                        onClick={clickingALetter}
+                                    />
+                                </Col>
+                            </Col>
+                        </Row>
 
-                {/* Row of buttons for actions */}
-                <Row>
-                    <Col className={colCenterClassName}>
-                        <Col xs={2}>
-                            <Button variant="danger" size="lg" onClick={removeLetterFromDisplay}>
-                                Remove last letter
+                        {/* Third row of 2 hexagons */}
+                        <Row>
+                            <Col className={colCenterClassName}>
+                                <Col xs={2}>
+                                    <Hexagon
+                                        fill="#C0C0C0"
+                                        shadow="#696969"
+                                        text={otherSixLetters[4]}
+                                        textStyle={textStyle}
+                                        onClick={clickingALetter}
+                                    />
+                                </Col>
+                                <Col xs={2}>
+                                    <Hexagon
+                                        fill="#C0C0C0"
+                                        shadow="#696969"
+                                        text={otherSixLetters[5]}
+                                        textStyle={textStyle}
+                                        onClick={clickingALetter}
+                                    />
+                                </Col>
+                            </Col>
+                        </Row>
+
+                        <br />
+
+                        {/* Row of buttons for actions */}
+                        <Row>
+                            <Col className={colCenterClassName}>
+                                <Col xs={2}>
+                                    <Button variant="danger" size="lg" onClick={removeLetterFromDisplay}>
+                                        Remove last letter
                             </Button>
-                        </Col>
-
-                        <Col xs={2}>
-                            <Button variant="info" size="lg" onClick={updateLetterOrder}>
-                                Revise letter order
+                                </Col>
+                                <Col xs={1}></Col>
+                                <Col xs={2}>
+                                    <Button variant="info" size="lg" onClick={updateLetterOrder}>
+                                        Revise letter order
                             </Button>
-                        </Col>
-
-                        <Col xs={2}>
-                            <Button variant="success" size="lg" onClick={submitButtonClicked}>
-                                Submit word
+                                </Col>
+                                <Col xs={1}></Col>
+                                <Col xs={2}>
+                                    <Button variant="success" size="lg" onClick={submitButtonClicked}>
+                                        Submit word
                             </Button>
-                        </Col>
+                                </Col>
+                            </Col>
+                        </Row>
+
                     </Col>
+
+                    <Col md={3}>
+                        <br />
+
+                        <h2>Words you've found!</h2>
+
+                        {/* Make sure the array isn't empty */}
+                        {/* Map over the array and create the list */}
+                        <ul>
+                            {userFoundWords.length !== 0 ? userFoundWords.map((singleWord) => (<li key={singleWord}>{singleWord}</li>)) : <div></div>}
+                        </ul>
+
+
+
+
+
+                    </Col>
+
                 </Row>
 
             </Container>
