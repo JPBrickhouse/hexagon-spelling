@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------------
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 // ---------------------------------------------------------------------------------
 // Importing the bootstrap container, row, and column components for responsive layout design
 import Container from "react-bootstrap/Container"
@@ -9,7 +9,7 @@ import Button from "react-bootstrap/Button"
 // ---------------------------------------------------------------------------------
 // https://www.npmjs.com/package/tiled-hexagons
 // https://josephsurin.github.io/tiled-hexagons/
-import { Hexagon, TiledHexagons } from 'tiled-hexagons'
+import { Hexagon } from 'tiled-hexagons'
 // ---------------------------------------------------------------------------------
 // Getting the data used for the word puzzle content and solutions
 import allTheWordSolutions from "../wordData/allTheWordSolutions"
@@ -258,8 +258,17 @@ const Home = () => {
 
 
                         // Let the user know that it was successful
-                        // Update the score
 
+
+
+
+                        // Update the score
+                        if (wordToCheck.length === 4) {
+                            setUserScore(userScore + 1);
+                        }
+                        else {
+                            setUserScore(userScore + wordToCheck.length)
+                        }
 
                         // Set the display as "Great job - keep going!"
                         // UNLESS they have found all the words
@@ -383,19 +392,19 @@ const Home = () => {
                                 <Col xs={2}>
                                     <Button variant="danger" size="lg" onClick={removeLetterFromDisplay}>
                                         Remove last letter
-                            </Button>
+                                    </Button>
                                 </Col>
                                 <Col xs={1}></Col>
                                 <Col xs={2}>
                                     <Button variant="info" size="lg" onClick={updateLetterOrder}>
                                         Revise letter order
-                            </Button>
+                                    </Button>
                                 </Col>
                                 <Col xs={1}></Col>
                                 <Col xs={2}>
                                     <Button variant="success" size="lg" onClick={submitButtonClicked}>
                                         Submit word
-                            </Button>
+                                    </Button>
                                 </Col>
                             </Col>
                         </Row>
@@ -405,6 +414,8 @@ const Home = () => {
                     <Col md={3}>
                         <br />
 
+                        <h2>Score: {userScore}</h2>
+
                         <h2>Words you've found!</h2>
 
                         {/* Make sure the array isn't empty */}
@@ -412,10 +423,6 @@ const Home = () => {
                         <ul>
                             {userFoundWords.length !== 0 ? userFoundWords.map((singleWord) => (<li key={singleWord}>{singleWord}</li>)) : <div></div>}
                         </ul>
-
-
-
-
 
                     </Col>
 
