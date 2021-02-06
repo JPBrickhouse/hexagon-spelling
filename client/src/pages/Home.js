@@ -71,6 +71,9 @@ const Home = () => {
     // State object containing the user's score
     const [userScore, setUserScore] = useState(0)
 
+    // State object counting how many words remain!
+    const [wordsRemaining, setWordsRemaining] = useState(Object.keys(word.answers).length)
+
     // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
     // Durstenfeld shuffle, an optimized version of Fisher-Yates
     function shuffleArray(array) {
@@ -110,8 +113,10 @@ const Home = () => {
         // Getting the currentString from the display
         let currentString = displayedAsEntered;
 
-        // Making sure that it's not an empty / zero length string already
-        if (currentString.length !== 0 && currentString.length !== 1) {
+        // Criteria to make sure that it's okay to delete letters
+        // - Make sure that there are letters to delete
+        // - Make sure that the messages aren't deleted
+        if (currentString.length > 1 && currentString !== "Your letters will appear here!" && currentString !== "Missing middle letter - try again" && currentString !== "Not a valid answer - try again" && currentString !== "Already found - try again" && currentString !== "Great job - keep going!" && currentString !== "You have found all the words!") {
             // https://flaviocopes.com/how-to-remove-last-char-string-js/
             // Removing the last letter from the string
             let newString = currentString.slice(0, -1);
@@ -121,7 +126,7 @@ const Home = () => {
         }
         // If the string length is 1 (aka, there's only one last letter displayed and user clicks to remove it)
         // Then change the string to the default message, reset the click count, and update the state display
-        if (currentString.length === 1) {
+        else if (currentString.length === 1) {
             // Change the string to the default message
             let newString = "Your letters will appear here!";
 
@@ -137,26 +142,12 @@ const Home = () => {
     function clickingALetter(event) {
         event.preventDefault();
 
-        // Making sure that the letter is clicked
-        if (event.target.textContent) {
+        // Making sure that the game isn't over
+        if (wordsRemaining > 0) {
 
-            if (clickCount === 0) {
-                // Get the letter clicked
-                let clickedLetter = event.target.textContent;
+            // Making sure that the letter is clicked
+            if (event.target.textContent) {
 
-                // Get the current state of the display
-                let originalString = displayedAsEntered;
-
-                // Run the updateDisplay to add the clickedLetter
-                let newString = updateDisplay(originalString, clickedLetter);
-
-                // Updating the state of the display
-                setDisplayedAsEntered(newString);
-
-                // Updating the click count
-                setClickCount(clickCount + 1);
-            }
-            else {
                 // Get the letter clicked
                 let clickedLetter = event.target.textContent;
 
@@ -190,8 +181,6 @@ const Home = () => {
         // If click count is not zero, let the submit happen
         if (clickCount !== 0) {
 
-            console.log("Valid Click");
-
             let wordToCheck = displayedAsEntered;
 
             // The includes() method determines whether a string contains the characters of a specified string.
@@ -201,43 +190,40 @@ const Home = () => {
             // If middleLetter is NOT included in the wordToCheck
             // Change the display and let the user know
             if (!wordToCheck.includes(middleLetter)) {
+                // Updating the state of the display
+                let newString = "Missing middle letter - try again";
+                setDisplayedAsEntered(newString);
 
-
-                console.log("Missing middle letter");
-                // Set the display as "Missing middle letter - try again"
-
-
+                // Resetting the click count
+                setClickCount(0);
             }
             // If the middleLetter IS included in the wordToCheck
             // If it IS used, then proceed to other checks
             else {
-                console.log("Includes middle letter");
 
                 // Check if the word exists in the answer object
                 // If it doesn't exist, then return a message letting the user know it's not a successful word
-                if (!answerObject[wordToCheck]) {
+                if ((wordToCheck in answerObject) === false) {
+                    // Updating the state of the display
+                    let newString = "Not a valid answer - try again";
+                    setDisplayedAsEntered(newString);
 
-
-                    console.log("Not a valid answer");
-                    // Set the display as "Not a valid answer - try again"
-
-
+                    // Resetting the click count
+                    setClickCount(0);
                 }
                 // If the word does exists, proceed to other checks
                 else {
 
-                    console.log("Valid answer");
-
                     // If the word has already been found, the corresponding key value will be 0
+                    // Let the user know that the word has already been found
                     if (answerObject[wordToCheck] === 0) {
 
-                        console.log("Word already found");
+                        // Updating the state of the display
+                        let newString = "Already found - try again";
+                        setDisplayedAsEntered(newString);
 
-                        // Let the user know that the word has already been found
-
-                        // Set the display as "Already found - try again"
-
-
+                        // Resetting the click count
+                        setClickCount(0);
                     }
                     // If the word hasn't already been found, the corresponding key value will be 1
                     else if (answerObject[wordToCheck] === 1) {
@@ -251,40 +237,47 @@ const Home = () => {
                         let sortedArray = alphabetizeTheUserWords(arrayToUpdate);
                         setUserFoundWords([...sortedArray]);
 
-
-
-                        console.log(userFoundWords)
-                        console.log(answerObject)
-
-
-                        // Let the user know that it was successful
-
-
-
-
                         // Update the score
                         if (wordToCheck.length === 4) {
                             setUserScore(userScore + 1);
                         }
                         else {
-                            setUserScore(userScore + wordToCheck.length)
+                            setUserScore(userScore + wordToCheck.length);
                         }
 
-                        // Set the display as "Great job - keep going!"
-                        // UNLESS they have found all the words
-                        // At which point, return "You've found all the words!"
+                        // Count down how many words are remaining
+                        // If there are still words remaining, return a message letting them know to keep going
+                        if (wordsRemaining > 1) {
+                            // Reduce the counter associated with the words remaining
+                            setWordsRemaining(wordsRemaining - 1)
 
+                            // Updating the state of the display
+                            let newString = "Great job - keep going!";
+                            setDisplayedAsEntered(newString);
 
+                            // Resetting the click count
+                            setClickCount(0);
+                        }
+                        // If the user finds the last word, return a congratulatory message!
+                        else {
+                            // Reduce the counter associated with the words remaining
+                            setWordsRemaining(wordsRemaining - 1)
 
+                            // Updating the state of the display
+                            let newString = "You have found all the words!";
+                            setDisplayedAsEntered(newString);
+
+                            // Resetting the click count
+                            setClickCount(0);
+                        }
                     }
                 }
             }
         }
     }
 
-
-
-
+    // ---------------------------------------------------------------------------------
+    
     return (
         <div>
 
@@ -413,6 +406,8 @@ const Home = () => {
 
                     <Col md={3}>
                         <br />
+
+                        <h2>Words remaining: {wordsRemaining}</h2>
 
                         <h2>Score: {userScore}</h2>
 
