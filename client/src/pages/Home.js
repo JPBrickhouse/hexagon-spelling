@@ -9,7 +9,12 @@ import Button from "react-bootstrap/Button"
 // ---------------------------------------------------------------------------------
 // https://www.npmjs.com/package/tiled-hexagons
 // https://josephsurin.github.io/tiled-hexagons/
+// npm package for the Hexagon button geometry and clickable interface
 import { Hexagon } from 'tiled-hexagons'
+// ---------------------------------------------------------------------------------
+// https://www.npmjs.com/package/react-responsive
+import { useMediaQuery } from 'react-responsive'
+// npm package for making media queries and making the page responsive
 // ---------------------------------------------------------------------------------
 // Getting the data used for the word puzzle content and solutions
 import allTheWordSolutions from "../wordData/allTheWordSolutions"
@@ -41,12 +46,41 @@ let word = allTheWordSolutions[indexOfWordToUse];
 // ---------------------------------------------------------------------------------
 const Home = () => {
 
-    // Style for the text within the buttons
-    const textStyle = {
+    // Block of media query possibilites, corresponding to screen size in pexels
+    const isMobilePortrait = useMediaQuery({ maxWidth: 575 });
+    const isMobileLandscape = useMediaQuery({ minWidth: 576, maxWidth: 767 });
+    const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+    const isDesktop = useMediaQuery({ minWidth: 992, maxWidth: 1199 });
+    const isLargeDesktop = useMediaQuery({ minWidth: 1200 });
+
+    // Variable styles for the hexagon side length and the associated text
+    let hexSideLength = 75;
+    let hexText = {
         fontFamily: 'Source Sans Pro',
-        fontSize: '120px',
-        fill: '#000000'
-    };
+        fontSize: '75px',
+        fill: '#000000',
+    }
+
+    if (isMobilePortrait) {
+        hexSideLength = 45;
+        hexText.fontSize = "45px"
+    }
+    else if (isMobileLandscape) {
+        hexSideLength = 45;
+        hexText.fontSize = "45px"
+    }
+    else if (isTablet) {
+        hexSideLength = 45;
+        hexText.fontSize = "45px"
+    }
+    else if (isDesktop) {
+        hexSideLength = 60;
+        hexText.fontSize = "60px"
+    }
+    else if (isLargeDesktop) {
+        hexSideLength = 75;
+        hexText.fontSize = "75px"
+    }
 
     // Class to help center / justify the page content
     const colCenterClassName = "d-flex justify-content-center";
@@ -277,9 +311,16 @@ const Home = () => {
     }
 
     // ---------------------------------------------------------------------------------
-    
+
     return (
         <div>
+
+            {/* Temporary block of <p> tags for responsive display size reference */}
+            {isMobilePortrait ? <p>Mobile Portrait</p> : null}
+            {isMobileLandscape ? <p>Mobile Landscape</p> : null}
+            {isTablet ? <p>Tablet</p> : null}
+            {isDesktop ? <p>Desktop</p> : null}
+            {isLargeDesktop ? <p>Large Desktop</p> : null}
 
             {/* bootstrap container containing the hexagons, buttons, and everything in between */}
             <Container>
@@ -301,19 +342,21 @@ const Home = () => {
                             <Col className={colCenterClassName}>
                                 <Col xs={2}>
                                     <Hexagon
+                                        sideLength={hexSideLength}
                                         fill="#C0C0C0"
                                         shadow="#696969"
                                         text={otherSixLetters[0]}
-                                        textStyle={textStyle}
+                                        textStyle={hexText}
                                         onClick={clickingALetter}
                                     />
                                 </Col>
                                 <Col xs={2}>
                                     <Hexagon
+                                        sideLength={hexSideLength}
                                         fill="#C0C0C0"
                                         shadow="#696969"
                                         text={otherSixLetters[1]}
-                                        textStyle={textStyle}
+                                        textStyle={hexText}
                                         onClick={clickingALetter}
                                     />
                                 </Col>
@@ -325,28 +368,31 @@ const Home = () => {
                             <Col className={colCenterClassName}>
                                 <Col xs={2}>
                                     <Hexagon
+                                        sideLength={hexSideLength}
                                         fill="#C0C0C0"
                                         shadow="#696969"
                                         text={otherSixLetters[2]}
-                                        textStyle={textStyle}
+                                        textStyle={hexText}
                                         onClick={clickingALetter}
                                     />
                                 </Col>
                                 <Col xs={2}>
                                     <Hexagon
+                                        sideLength={hexSideLength}
                                         fill="#F6C700"
                                         shadow="#696969"
                                         text={middleLetter}
-                                        textStyle={textStyle}
+                                        textStyle={hexText}
                                         onClick={clickingALetter}
                                     />
                                 </Col>
                                 <Col xs={2}>
                                     <Hexagon
+                                        sideLength={hexSideLength}
                                         fill="#C0C0C0"
                                         shadow="#696969"
                                         text={otherSixLetters[3]}
-                                        textStyle={textStyle}
+                                        textStyle={hexText}
                                         onClick={clickingALetter}
                                     />
                                 </Col>
@@ -358,19 +404,21 @@ const Home = () => {
                             <Col className={colCenterClassName}>
                                 <Col xs={2}>
                                     <Hexagon
+                                        sideLength={hexSideLength}
                                         fill="#C0C0C0"
                                         shadow="#696969"
                                         text={otherSixLetters[4]}
-                                        textStyle={textStyle}
+                                        textStyle={hexText}
                                         onClick={clickingALetter}
                                     />
                                 </Col>
                                 <Col xs={2}>
                                     <Hexagon
+                                        sideLength={hexSideLength}
                                         fill="#C0C0C0"
                                         shadow="#696969"
                                         text={otherSixLetters[5]}
-                                        textStyle={textStyle}
+                                        textStyle={hexText}
                                         onClick={clickingALetter}
                                     />
                                 </Col>
