@@ -1,41 +1,53 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+// Importing reacter router dom
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+
+// Importing the various pages and components
+import Home from "./pages/Home/Home"
+import About from "./pages/About/About"
+import Contact from "./pages/Contact/Contact"
+import Rules from "./pages/Rules/Rules"
+import ApplicationNavigation from "./components/ApplicationNavigation/ApplicationNavigation"
 
 
-
-// import Books from "./pages/Books";
-// import Detail from "./pages/Detail";
-// import NoMatch from "./pages/NoMatch";
-// import Nav from "./components/Nav";
-
-
-
-import Home from "./pages/Home"
-
-
-
-
+// The application function
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <div>
 
-        {/* Navigation Bar that will be able to switch between Home, About the app, and Contact / Meet the Developer*/}
+        {/* Navigation Bar Component */}
+        <ApplicationNavigation />
 
-        {/* Router switch to switch between the pages */}
+        {/* React Router Switch that will take users between the three pages */}
+        <Switch>
 
-        <Home/>
+          {/* About Page */}
+          <Route path="/about">
+            <About />
+          </Route>
 
-        {/* Rules for the game */}
+          {/* Contact Page */}
+          <Route path="/contact">
+            <Contact />
+          </Route>
 
-        {/* About the App */}
+          {/* Rules Page */}
+          <Route path="/rules">
+            <Rules />
+          </Route>
 
-        {/* Contact / Meet the Developer */}
-
+          {/* Home Page */}
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
 
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 
+// Exporting the application function
 export default App;

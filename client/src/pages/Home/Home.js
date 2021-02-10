@@ -17,7 +17,7 @@ import { useMediaQuery } from 'react-responsive'
 // npm package for making media queries and making the page responsive
 // ---------------------------------------------------------------------------------
 // Getting the data used for the word puzzle content and solutions
-import allTheWordSolutions from "../wordData/allTheWordSolutions"
+import allTheWordSolutions from "../../wordData/allTheWordSolutions"
 // The maximum is exclusive and the minimum is inclusive
 function getRandomArbitrary(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
