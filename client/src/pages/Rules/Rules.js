@@ -47,7 +47,7 @@ const Rules = () => {
                 <br />
                 <Row>
                     <Col className={colCenterClassName}>
-                        <h2>For more information about the game, click <span><Link to="/about">here</Link></span>!</h2>
+                        <h2>For more information about the game, click <span><Link to="/about">here</Link></span></h2>
                     </Col>
                 </Row>
                 <br />

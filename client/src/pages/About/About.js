@@ -14,7 +14,7 @@ import { faEnvelope } from "@fortawesome/free-solid-svg-icons"
 const About = () => {
     // Class to help center / justify the page content
     const colCenterClassName = "d-flex justify-content-center";
-    
+
     return (
         <div>
             <Container>
@@ -23,27 +23,29 @@ const About = () => {
                 Clicking an option will scroll down to the section? */}
 
                 <Row>
-                    <Col>
-                        <h2>About the game!</h2>
+                    <Col lg={6}>
+                        <Row className={colCenterClassName}>
+                            <h2>About the game!</h2>
+                        </Row>
                     </Col>
 
-                    <Col>
+                    <Col lg={6}>
                         <Row className={colCenterClassName}>
                             <h2>About the developer!</h2>
                         </Row>
-                        <br/>
+                        <br />
                         <Row className={colCenterClassName}>
                             <Image src={"https://avatars1.githubusercontent.com/u/63511774?s=400&u=399ed99b324c1fb9db704a3d130080e7f66b3924&v=4"} roundedCircle fluid />
                         </Row>
-                        <br/>
+                        <br />
                         <Row className={colCenterClassName}>
                             <h3>Let's connect!</h3>
                         </Row>
-                        <br/>
+                        <br />
                         <Row className={colCenterClassName}>
-                            <a href="https://www.linkedin.com/in/joshpbrickman/" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faLinkedin} size="6x" color="#0e76a8" /></a>
-                            <a href="https://github.com/JPBrickhouse" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faGithub} size="6x" color="black" /></a>
-                            <a href="mailto:joshpbrickman@gmail.com" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faEnvelope} size="6x" color="#808080" /></a>
+                            <a href="https://www.linkedin.com/in/joshpbrickman/" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faLinkedin} size="6x" color="#0e76a8" /></a>
+                            <a href="https://github.com/JPBrickhouse" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faGithub} size="6x" color="black" /></a>
+                            <a href="mailto:joshpbrickman@gmail.com" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faEnvelope} size="6x" color="#808080" /></a>
                         </Row>
                     </Col>
                 </Row>
