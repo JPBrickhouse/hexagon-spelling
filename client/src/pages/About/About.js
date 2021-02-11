@@ -11,20 +11,20 @@ const About = () => {
         <div>
             <Container>
 
-                {/* MAKE RESPONSIVE GRIDS WITH COLUMNS AND ROWS */}
-
-
                 {/* Little header bar of options?
                 Clicking an option will scroll down to the section? */}
 
-                {/* Gif of app usage */}
+                <Row>
+                    <Col>
+                        <p>About the game!</p>
+                    </Col>
 
-                {/* Meet the developer */}
 
-                {/* Credits */}
+                    <Col>
+                        <p>About the developer!</p>
+                    </Col>
+                </Row>
 
-                {/* Placeholder text */}
-                <p>About</p>
             </Container>
         </div>
     );
