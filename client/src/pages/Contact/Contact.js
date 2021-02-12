@@ -11,7 +11,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 import { faEnvelope, faBriefcase } from "@fortawesome/free-solid-svg-icons"
 
-
 const Contact = () => {
     // Class to help center / justify the page content
     const colCenterClassName = "d-flex justify-content-center";
@@ -37,7 +36,7 @@ const Contact = () => {
                     <Col lg={8} style={marginLeft}>
                         <Row>
                             <p style={pTextSize}>
-                                I have built <span><a href="http://150northriverside.com/" target="_blank" rel="noopener noreferrer">office skyscrapers</a></span> in Chicago,
+                                I have built <span><a href="https://www.mka.com/projects/featured/150-north-riverside" target="_blank" rel="noopener noreferrer">office skyscrapers</a></span> in Chicago,
                                 created <span><a href="https://www.atlasobscura.com/places/epiccampus" target="_blank" rel="noopener noreferrer">whimsical buildings</a></span> for Epic Systems,
                                 and designed a space toilet – <span><a href="https://www.nasa.gov/feature/nasa-names-lunar-loo-challenge-winners" target="_blank" rel="noopener noreferrer">the THRONE</a></span> – for NASA.
                                 <br />

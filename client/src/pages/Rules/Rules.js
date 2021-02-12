@@ -21,7 +21,7 @@ const Rules = () => {
             <Container>
 
                 <Row className={colCenterClassName}>
-                    <h1>Rules for <span><Link to="/">Hexagon Spelling</Link></span>!</h1>
+                    <h1>Rules for <span><Link to="/">Hexagon Spelling</Link></span></h1>
                 </Row>
                 <br />
                 <Row>
