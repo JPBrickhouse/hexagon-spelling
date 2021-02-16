@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------------
-import React, { useState } from "react"
+import React from "react"
 // ---------------------------------------------------------------------------------
 // Importing the bootstrap container, row, and column components for responsive layout design
 import Container from "react-bootstrap/Container"
@@ -52,24 +52,24 @@ const Home = (props) => {
     }
 
     if (isMobilePortrait) {
-        hexSideLength = 45;
-        hexText.fontSize = "45px"
+        hexSideLength = 55;
+        hexText.fontSize = "70px"
     }
     else if (isMobileLandscape) {
-        hexSideLength = 45;
-        hexText.fontSize = "45px"
+        hexSideLength = 60;
+        hexText.fontSize = "75px"
     }
     else if (isTablet) {
-        hexSideLength = 45;
-        hexText.fontSize = "45px"
+        hexSideLength = 50;
+        hexText.fontSize = "65px"
     }
     else if (isDesktop) {
-        hexSideLength = 60;
-        hexText.fontSize = "60px"
+        hexSideLength = 70;
+        hexText.fontSize = "85px"
     }
     else if (isLargeDesktop) {
-        hexSideLength = 75;
-        hexText.fontSize = "75px"
+        hexSideLength = 85;
+        hexText.fontSize = "100px"
     }
 
     // Class to help center / justify the page content
@@ -95,31 +95,31 @@ const Home = (props) => {
         <div>
 
             {/* Temporary block of <p> tags for responsive display size reference */}
-            {isMobilePortrait ? <p>Mobile Portrait</p> : null}
+            {/* {isMobilePortrait ? <p>Mobile Portrait</p> : null}
             {isMobileLandscape ? <p>Mobile Landscape</p> : null}
             {isTablet ? <p>Tablet</p> : null}
             {isDesktop ? <p>Desktop</p> : null}
-            {isLargeDesktop ? <p>Large Desktop</p> : null}
+            {isLargeDesktop ? <p>Large Desktop</p> : null} */}
 
             {/* bootstrap container containing the hexagons, buttons, and everything in between */}
             <Container>
 
                 <Row>
 
-                    <Col md={9}>
+                    <Col md={7}>
                         <br />
 
                         {/* Row where the user clicked letters get displayed */}
                         <Row>
                             <Col className={colCenterClassName}>
-                                <h1>{displayedAsEntered}</h1>
+                                <h2>{displayedAsEntered}</h2>
                             </Col>
                         </Row>
 
                         {/* First row of 2 hexagons */}
                         <Row>
                             <Col className={colCenterClassName}>
-                                <Col xs={2}>
+                                <Col xs={3}>
                                     <Hexagon
                                         sideLength={hexSideLength}
                                         fill="#C0C0C0"
@@ -129,7 +129,7 @@ const Home = (props) => {
                                         onClick={clickingALetter}
                                     />
                                 </Col>
-                                <Col xs={2}>
+                                <Col xs={3}>
                                     <Hexagon
                                         sideLength={hexSideLength}
                                         fill="#C0C0C0"
@@ -145,7 +145,7 @@ const Home = (props) => {
                         {/* Second row of 3 hexagons */}
                         <Row>
                             <Col className={colCenterClassName}>
-                                <Col xs={2}>
+                                <Col xs={3}>
                                     <Hexagon
                                         sideLength={hexSideLength}
                                         fill="#C0C0C0"
@@ -155,7 +155,7 @@ const Home = (props) => {
                                         onClick={clickingALetter}
                                     />
                                 </Col>
-                                <Col xs={2}>
+                                <Col xs={3}>
                                     <Hexagon
                                         sideLength={hexSideLength}
                                         fill="#F6C700"
@@ -165,7 +165,7 @@ const Home = (props) => {
                                         onClick={clickingALetter}
                                     />
                                 </Col>
-                                <Col xs={2}>
+                                <Col xs={3}>
                                     <Hexagon
                                         sideLength={hexSideLength}
                                         fill="#C0C0C0"
@@ -181,7 +181,7 @@ const Home = (props) => {
                         {/* Third row of 2 hexagons */}
                         <Row>
                             <Col className={colCenterClassName}>
-                                <Col xs={2}>
+                                <Col xs={3}>
                                     <Hexagon
                                         sideLength={hexSideLength}
                                         fill="#C0C0C0"
@@ -191,7 +191,7 @@ const Home = (props) => {
                                         onClick={clickingALetter}
                                     />
                                 </Col>
-                                <Col xs={2}>
+                                <Col xs={3}>
                                     <Hexagon
                                         sideLength={hexSideLength}
                                         fill="#C0C0C0"
@@ -209,43 +209,31 @@ const Home = (props) => {
                         {/* Row of buttons for actions */}
                         <Row>
                             <Col className={colCenterClassName}>
-                                <Col xs={2}>
-                                    <Button variant="danger" size="lg" onClick={removeLetterFromDisplay}>
-                                        Remove last letter
-                                    </Button>
-                                </Col>
-                                <Col xs={1}></Col>
-                                <Col xs={2}>
-                                    <Button variant="info" size="lg" onClick={updateLetterOrder}>
-                                        Revise letter order
-                                    </Button>
-                                </Col>
-                                <Col xs={1}></Col>
-                                <Col xs={2}>
-                                    <Button variant="success" size="lg" onClick={submitButtonClicked}>
-                                        Submit word
-                                    </Button>
-                                </Col>
+                                <Button variant="danger" size="lg" onClick={removeLetterFromDisplay}>
+                                    Remove last letter
+                                </Button>
+
+                                <Button variant="info" size="lg" onClick={updateLetterOrder}>
+                                    Revise letter order
+                                </Button>
+
+                                <Button variant="success" size="lg" onClick={submitButtonClicked}>
+                                    Submit word
+                                </Button>
                             </Col>
                         </Row>
-
                     </Col>
 
-                    <Col md={3}>
+                    <Col md={5}>
                         <br />
-
-                        <h2>Words remaining: {wordsRemaining}</h2>
-
                         <h2>Score: {userScore}</h2>
-
-                        <h2>Words you've found!</h2>
-
+                        <h3>Words remaining: {wordsRemaining}</h3>
+                        <h3>Words you've found:</h3>
                         {/* Make sure the array isn't empty */}
                         {/* Map over the array and create the list */}
                         <ul>
                             {userFoundWords.length !== 0 ? userFoundWords.map((singleWord) => (<li key={singleWord}>{singleWord}</li>)) : <div></div>}
                         </ul>
-
                     </Col>
 
                 </Row>

@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom'
 
 // Importing the relevant gifs
 import gifNYT from "./HexSpell-NYT.gif"
+import gifJPB from "./HexSpell-JPB.gif"
 
 const About = () => {
     // Class to help center / justify the page content
@@ -64,7 +65,7 @@ const About = () => {
                     <Col lg={6}>
                         <Row className={colCenterClassName}>
                             <h3>My version</h3>
-                            {/* Show my version */}
+                            <Image src={gifJPB} fluid />
                         </Row>
                     </Col>
                 </Row>
